@@ -1,0 +1,189 @@
+/*
+
+ARRAYS
+
+
+*/
+
+use('test')
+db.createCollection("livros")
+db.livros.insertOne({
+      nome: "1984",
+      genero: ["ficção", "distopia"]
+})
+db.livros.find()
+
+// ----
+/*
+
+Consultas complexas com $and e $or
+
+*/
+use("sample_mflix")
+db.movies.find()
+
+
+/* BUSCA FILMES QUE SÃO DE 1980 E SÃO DO BRASIL*/
+use("sample_mflix")
+db.movies.find({
+    year: 1980,
+    countries: "Brazil"
+})
+
+use("sample_mflix")
+db.movies.find({
+    $and:
+      [
+          {year: 1980,
+          countries: "Brazil"}
+      ]
+
+}).count()
+
+
+// Buscar filmes de 2010 ou filmes que sejam do diretor David Lynch
+use("sample_mflix")
+db.movies.find({
+    $or:
+      [
+          {year: 2010},
+          {directors: "David Lynch"}
+      ]
+
+}).count()
+
+/* Busca filmes lançado em 1980 ou 2000. Usamos $in quando estamos tratando 
+ de um mesmo campo */
+
+use("sample_mflix")
+db.movies.find({
+    year: {$in: [1980, 2000]}
+}).count()
+
+ 
+/* Misturando Operadores $or com $and 
+
+Filmes lançados entre 1990 e 2010 E que devem conter Angelina Jolie ou Fernanda Montenegro
+
+*/
+use("sample_mflix")
+db.movies.find({
+    $and: [
+        { $or: [{year:{$gte: 1990}}, {year:{$lte: 2010}}] },
+        { $or: [{cast:{$eq: "Angelina Jolie"}}, {cast:{$eq: "Fernanda Montenegro"}}]}
+        
+    ]
+}).count()
+
+// Negação. Troca o sentido de uma clausula
+use("sample_mflix")
+db.movies.find({
+    year:{
+        $not:
+    {
+        $in:[1980, 1990]
+      }
+    }
+}).count() 
+
+// ----------------------------
+
+// Uso de agregações
+/*No exemplo abaixo é filtrado apenas os 5 primeiros filmes de 1990 na ordem alfabética,
+ contendo apenas o titulo e o ano */
+use("sample_mflix")
+db.movies.aggregate([
+    { $match: {year: 1990} },
+    { $project: {
+            title:1,
+            year:1 }},
+
+    { $sort: { title:1 }},
+
+    { $limit: 5 }
+])
+
+
+// Soma prêmios dos filmes lançados em 1990
+use("sample_mflix")
+db.movies.aggregate([
+    { $match: {year: 1990}},
+
+    { $group: {
+       _id: '',
+       "Premios": { $sum: '$awards.wins' }  
+    }
+   }, {
+       $project: {         
+          "Total de Vitórias": '$Premios'
+      }
+ }]);
+
+ 
+db.movies.
+/* --- LOOKUP ------ */
+use("sample_analytics");
+
+db.accounts.aggregate({
+  /**
+   * query: The query in MQL.
+   */
+  $match: {
+    "account_id": {
+      $eq: 371138
+    }
+  }
+}, {
+  /**
+   * from: The target collection.
+   * localField: The local join field.
+   * foreignField: The target join field.
+   * as: The name for the results.
+   * pipeline: The pipeline to run on the joined collection.
+   * let: Optional variables to use in the pipeline field stages.
+   */
+  $lookup: {
+    from: 'transactions',
+    localField: 'account_id',
+    foreignField: 'account_id',
+    as: 'transações'
+  }
+})
+
+ 
+
+
+
+/*use("sample_restaurants");
+
+
+
+db.neighborhoods.renameCollection("bairro")
+db.bairro.updateMany( {}, {$rename: { 'distrito': 'nome' }} )
+db.bairro.updateMany( {}, {$rename: { 'name': 'nome' }} )
+db.bairro.updateMany(
+   { },
+   { $unset: { geometry: "" } }
+)
+db.restaurants.renameCollection("restaurantes")
+db.restaurantes.updateMany( {}, {$rename: { 'distrito': 'nome' }} )
+
+
+
+
+
+// Vamos trabalhar com a base de dados de restaurantes de NY e unir as tabelas bairro e restaurantes
+use("sample_restaurants");
+db.restaurantes.aggregate(
+    [{
+        $lookup: {
+            from: "bairro",
+            localField: "nome",
+            foreignField: "distrito",
+            as: "Distrito de NY"
+        }, 
+    
+    }]
+)*/
+
+

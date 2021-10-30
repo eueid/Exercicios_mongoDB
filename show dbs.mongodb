@@ -1,0 +1,167 @@
+use Biblioteca
+
+db.Livros.insertMany
+(
+        {
+        Nome: "DUNA", Autor: "FRANK HEBERT", 
+        Genero: "FICÇÃO", 
+        Ano_de_publicacao: 1965, 
+        ISBN: "978-85-7657-101-8"
+        }    
+
+)
+
+db.user.insert({name: "Ada Lovelace", age: 205})
+
+show dbs
+
+use Biblioteca //cria bd temos que inserir alguma informação para terminar de criar
+
+db
+
+db.createCollection('Livros') //Criando uma nova collection na bd Biblioteca
+
+show collections //mostra as coleçõe do nossa bd
+
+db.Livros.insertOne({ nome: "DUNA", autor: "FRANK HEBERT", genero: "FICÇÃO", Ano_de_Publicacao: "1965", ISBN: "978-85-7657-101-8"})
+
+db.Biblioteca.find().pretty()
+
+use Biblioteca
+
+db.Biblioteca.insertOne({ nome: "DUNA", autor: "FRANK HEBERT", genero: "FICÇÃO", Ano_de_Publicacao: "1965", ISBN: "978-85-7657-101-8"})
+
+show dbs
+
+
+db.Livros.insertMany
+
+        ([
+        
+        { nome: "DUNA", 
+           autor: "FRANK HEBERT", 
+           genero: "FICÇÃO", 
+           Ano_de_Publicacao: "1965", 
+           ISBN: "978-85-7657-101-8"},
+        {
+           nome: "DOM CASMURRO", 
+           autor: "MACHADO DE ASSIS", 
+           genero: "FICÇÃO", 
+           Ano_de_Publicacao: "1899", 
+           ISBN: "9978-85-0815-361-9"
+        },
+        {
+           nome: "O SOL É PARA TODOS", 
+           autor: "HARPER LEE", 
+           genero: "FICÇÃO", 
+           Ano_de_Publicacao: "1860", 
+           ISBN: "972-29-0683-6"
+        },
+        {
+           nome: "COSMOS", 
+           autor: "HCARL SAGAN", 
+           genero: "NÃO-FICÇÃO", 
+           Ano_de_Publicacao: "1980", 
+           ISBN: "978-0-345-53943-4"
+        },
+        {
+           nome: "UMA BREVE HISTÓRIA DO TEMPO", 
+           autor: "STEPHEN HAWKING", 
+           genero: "NÃO-FICÇÃO", 
+           Ano_de_Publicacao: "1988", 
+           ISBN: "972-662-010-4"
+        },
+        {
+           nome: "DEVORADORES DE ESTRELAS", 
+           autor: "ANDY WEIR", 
+           genero: "FICÇÃO", 
+           Ano_de_Publicacao: "2021", 
+           ISBN: "978-0-593-39556-1"
+        },
+           
+        ])
+
+        db.Livros.find().pretty()
+
+        db.Livros.find({nome: "COSMOS"}) 
+
+        db.Livros.find({nome: "DEVORADORES DE ESTRELAS"}) 
+
+        db.Livros.update({nome: 'DEVORADORES DE ESTRELAS'},{$set:{nome: 'PROJECT HAIL MARY'}})
+        
+        
+        /* db.Livros.updateOne({ 
+           nome: "PROJECT HAILMARY"},
+         {$set:{nome: "PROJECT HAIL MARY"}}) */
+
+         db.Livros.find({nome: "PROJECT HAIL MARY"})
+
+         db.Livros.insertOne({
+            nome: "1984", 
+           autor: "GEORGE ORWELL", 
+           genero: "FICÇÃO", 
+           Ano_de_Publicacao: "1949", 
+           ISBN: "978-8-535-91484-9"
+         })
+
+         db.Livros.find({nome: "1984"})
+
+         db.Livros.remove({"_id": ObjectId("617af23a60d4d0b1a5981a30")
+         })
+
+         db.Livros.find({Ano_de_Publicacao: {$lt:"1979"}});
+
+         db
+
+         db.Livros.find({Ano_de_Publicacao: {$gt:"1979"}});
+
+         db.Livros.find().sort({
+            nome: 1
+         })
+
+          db.Livros.find().sort({
+            nome: -1
+         })
+
+          db.Livros.find().sort({
+            Ano_de_Publicacao: -1
+         })
+
+            db.Livros.find().sort({
+            Ano_de_Publicacao: 1
+         })
+         //3 - Consulte os livros lançados antes de 1979.
+         db.Livros.find({Ano_de_Publicacao: {$lt:"1979"}});
+
+         //4 - Consulte os livros cujo ano não seja 1960.
+         db.Livros.find({Ano_de_Publicacao: {$ne:"1979"}});
+
+         //6 - Consulte todos os livros que começam com a letra "D".
+         db.Livros.find({nome: /^D/});
+
+
+         //7 - Consulte todos os livros que terminam com a letra "S".
+         db.Livros.find({nome: /S$/});
+
+         //8 - Consulte todos os livros cujo ISBN termina com "-4".
+         db.Livros.find({ISBN: /-4$/});
+
+         db.Livros.distinct(nome).sort({nome: -1});
+
+         db.Livros.dropIndex("_id"); //no funciona
+
+         db.Livros.createIndex({"nome":1})
+
+         db.Livros.explain("executionStats").find({nome: "Duna"})
+
+
+
+
+
+
+
+
+db.Livros.find( {}, { nome: { $slice: 3 }})
+
+
+db.Livros.find()

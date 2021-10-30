@@ -1,0 +1,162 @@
+use("dbfacebook")
+
+use("dbfacebook")
+db.createCollection("users")
+
+
+use("dbfacebook")
+db.createCollection("groups")
+
+use("dbfacebook")
+db.createCollection("posts")
+
+
+use("dbfacebook")
+db.createCollection("friends")
+
+show dbs
+
+use dbfacebook
+show collections
+
+use("dbfacebook")
+db.users.insertMany
+([
+    {
+        name:"Darwin",
+        last_name:"Betancourt",
+        password:"Darwin123@",
+        cpf:"00000000001",
+        age:38,
+        email:"darwin@gmail.com"
+    },
+    {
+        name:"Darth",
+        last_name:"Vader",
+        password:"Darth123@",
+        cpf:"10000300002",
+        age:163,
+        email:"darth@gmail.com"
+    },
+    {
+        name:"Luke",
+        last_name:"Skywalker",
+        password:"Luke123@",
+        cpf:"00003540001",
+        age:98,
+        email:"luke@gmail.com"
+    },
+    {
+        name:"Chewbacca",
+        last_name:"Peter",
+        password:"Chewbacca123@",
+        cpf:"02103540001",
+        age:450,
+        email:"luke@gmail.com"
+    },
+    {
+        name:"R2-D2",
+        last_name:"Arturito",
+        password:"arturito123@",
+        cpf:"02103542101",
+        age:1800,
+        email:"arturito@gmail.com"
+    },
+    {
+        name:"Yoda",
+        last_name:"Jacinto",
+        password:"yoda123@",
+        cpf:"12103521101",
+        age:30,
+        email:"yodaaa@gmail.com"
+    },
+    {
+        name:"Obi-Wan",
+        last_name:"Kenobi",
+        password:"Kenobi123@",
+        cpf:"32103521101",
+        age:20,
+        email:"obiwan@gmail.com"
+    }
+])
+
+use("dbfacebook")
+db.groups.insertMany
+([
+    {
+        name:"Star World I",
+        users:
+            [
+                {cpf:"02103540001"},
+                {cpf:"10000300002"},
+                {cpf:"00003540001"}
+            ]},
+    {
+        name:"Star World II",
+        users:
+            [
+                {cpf:"02103540001"},
+                {cpf:"12103521101"},
+                {cpf:"00000000001"}
+            ]},
+     {
+        name:"Star World III",
+        users:
+            [
+                {cpf:"02103540001"},
+                {cpf:"32103521101"},
+                {cpf:"02103521101"}
+            ]}
+])
+
+
+use("dbfacebook")
+db.friends.insertMany(
+    [{
+        {      
+        cpf:"02103521101",
+        friends:
+            [
+               {
+                    {cpf:"00000000001"},
+                    {name:"Darwin"},
+                    {last_name:"Betancourt"}
+                },
+                {
+                    { cpf:"02103542101"},
+                    {name:"R2-D2"},
+                    {last_name:"Arturito"}
+                },
+                {
+                    { cpf:"02103540001"},
+                    {name:"Chewbacca"},
+                    {last_name:"Peter"}
+                }
+            ]},
+
+        {  
+        cpf:"00003540001",
+        friends:
+            [
+               {
+                   { cpf:"32103521101"},
+                   {name:"Obi-Wan"},
+                   {last_name:"Kenobi"}
+                },
+                {
+                    { cpf:"02103540001"},
+                    {name:"Chewbacca"},
+                    {last_name:"Peter"}
+                },
+                {
+                    { cpf:"10000300002"},
+                    {name:"Darth"},
+                    {last_name:"Vader"}
+                }
+            ]}           
+    }])
+
+
+
+use("dbfacebook")
+db.friends.insert({"cpf":02103521101,friends:[{"cpf": 00000000001,"name" : "Darwin","last_name" :"Betancourt"},{"cpf": 02103542101,"name" : "R2-D2","last_name" :"Arturito"},{"cpf": 02103540001,"name" : "Chewbacca","last_name" :"Peter"}]})

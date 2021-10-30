@@ -1,0 +1,341 @@
+use("sample_mflix")
+db.movies.find({year: 2010}) //mostra tudos os filme no ano 2010
+
+
+use("sample_mflix")
+db.movies.find().pretty() //mostra tudos os filmes
+
+
+use("sample_mflix")
+db.movies.find({year: 2010}).count() //mostra a quantidade dos filme lanzado no ano 2010
+
+use("sample_mflix")
+db.movies.find({year: 1990}).count() //mostra a quantidade dos filme lanzado no ano 1990
+
+
+use("sample_mflix")
+db.movies.find({tittle: "The Ace of Hearts"}) //mostra tudos os filme no ano 2010
+
+use("sample_mflix")
+db.movies.find({year: 2015, countries: "Brazil"}) //mostra tudos os filme no ano 2010 y pais Brasil
+
+
+use("sample_mflix")
+db.movies.find(
+    {
+        $or:[
+            {year:2015},
+            {countries: "Venezuela"}
+        ] 
+
+    }
+)//mostra filmes lançados em 2015 ou($ou)
+
+
+use("sample_mflix")
+db.movies.find(
+    {
+        $or:[
+            {countries: "Brazil"},
+            {countries: "Venezuela"}
+        ] 
+
+    }
+)//mostra filmes lançados em 2015 ou($ou)
+
+// Filmes do ano de 2015 "ou" que são do Brasil
+db.movies.find({
+    $or: [
+        { year: 2015 },
+        { countries: 'Brazil' }
+    ]
+})
+
+db.movies.find({
+    $and: [
+        { year: 2015 },
+        { countries: 'Venezuela' }
+    ]
+})
+
+//Reparem que uma consulta AND pode ser simplificada:
+
+db.movies.find({
+    year: 2015,
+    countries: 'Venezuela'
+})
+
+use("sample_mflix")
+db.movies.find({
+    year: {$in:[2014,2015]}
+}) //mostra filme lançados em 2014 e 2015/
+
+use("sample_mflix")
+db.movies.find({
+    year: {$in:[2014,2015]}
+}).count() //quantidade de filme lançados no ano 2014 e 2015
+
+
+use("sample_mflix")
+db.movies.find({
+    year: {
+        $gte: 1990,
+        $lte: 1991
+        },
+}).sort({year: -1 })
+
+/* $gt === Greater Than
+$gte === Greater Than Equal
+$lt === Lower Than */
+
+// cast: {$lt: [Angelina Jolie, Fernanda Montenegro]}
+
+use("sample_mflix")
+db.movies.find({
+    year: {
+        $gte: 1990,
+        $lte: 2010
+        },
+      cast: {
+        $in: ["Angelina Jolie", "Fernanda Montenegro"]}
+})
+
+use("sample_mflix")
+db.movies.find({
+    year: {
+        $gte: 1990,
+        $lte: 2010
+        },
+      cast: {
+        $in: ["Angelina Jolie", "Fernanda Montenegro"]}
+}).sort({year: -1 })
+
+
+use("sample_mflix")
+db.movies.find({
+    year: {
+        $gte: 1990,
+        $lte: 2010
+        },
+      cast: {
+        $in: ["Angelina Jolie", "Fernanda Montenegro"]}
+}).sort({year: -1 }).count()
+
+
+///////////////////////////////////////////////////////
+use("sample_mflix")
+db.movies.find({
+    $and: [ 
+        {$or:[{
+            year: {$gte: 1990}
+        },
+        {year: {$lte:2010}}
+        ]},
+{
+    cast:{
+        $in: ["Angelina Jolie", "Fernanda Montenegro"]
+    }
+}
+
+    ]
+})
+
+use("sample_mflix")
+db.movies.find({
+    $and: [
+        {
+            $or: [{ year: { $gte: 1990, $lte: 2010 } }],
+        }, {
+            $or: [{ cast: { $in: ['Fernanda Montenegro', 'Angelina Jolie'] } }],
+        }
+    ]
+})
+
+
+use("sample_mflix")
+db.movies.find({
+    $and: [
+        {
+            $or: [{ year: { $gte: 1990, $lte: 2010 } }],
+        }, {
+            $or: [{ cast: { $in: ['Fernanda Montenegro', 'Angelina Jolie'] } }],
+        }
+    ]
+}).count()
+
+
+//Filmes lançados depois de 1990 e antes de 2010 E que devem conter Angelina Jolie ou Fernanda Montenegro
+use("sample_mflix")
+db.movies.find({
+    $and: [
+        { $or: [{year:{$gte: 1990}}, {year:{$lte: 2010}}] },
+        { $or: [{cast:{$eq: "Angelina Jolie"}}, {cast:{$eq: "Fernanda Montenegro"}}]}
+        
+    ]
+}).count()
+
+//Filmes lançados entre 1990 e 2010 E que devem conter Angelina Jolie ou Fernanda Montenegro
+use("sample_mflix")
+db.movies.find({
+    $and: [
+        {
+            $or: [{ year: { $gte: 1990, $lte: 2010 } }],
+        }, {
+            $or: [{ cast: { $in: ['Fernanda Montenegro', 'Angelina Jolie'] } }],
+        }
+    ]
+}).sort({ year: 1 })
+
+
+
+
+use("sample_mflix")
+db.movies.find({
+   cast: { 
+       $not{
+       $in: ["Fernanda Montenegro", "Angelina Jolie"]
+       }}
+})
+
+
+
+use("sample_mflix")
+db.movies.find({
+   cast: {        
+       $in: ["Fernanda Montenegro", "Angelina Jolie"]
+       }
+}).count()
+
+
+
+use("sample_mflix")
+db.movies.find({
+   cast: {        
+       $nin: ['Fernanda Montenegro', 'Angelina Jolie']
+       }
+}).count()
+
+
+use("sample_mflix")
+db.movies.find().count()
+
+
+
+////////////////////////////AGREGAÇÃO FAZE CONSULTAS DE GRUPOS/////////////////////////////////
+use("sample_mflix")
+db.movies.aggregate([
+    {
+        $group: {
+            _id:"",
+            "premios":{$sum:"$awards.wins"}
+        }
+    }, {
+        $project:{"Total de vitorias":("$premios")}
+    }
+])//suma
+
+
+
+
+
+use("sample_mflix")
+db.movies.aggregate([
+    {
+        $group: {
+            _id:"",
+            "premios":{$avg:"$awards.wins"}
+        }
+    }, {
+        $project:{"media de vitorias":("$premios")}
+    }
+]) //medias 
+
+
+use("sample_mflix")
+db.movies.aggregate([
+    {
+        $group: {
+            _id:"",
+            "premios":{$max:"$awards.wins"}
+        }
+    }, {
+        $project:{"Filme com maior numero  de vitorias":("$premios")}
+    }
+]) //filme que ganho mais premios em relacao a outros 
+
+use("sample_mflix")
+db.movies.findOne({
+    "awards.wins": 267
+}) //mostra o filme que ganho 267 prémios
+
+/////mostrar quantod premios ganhou o filme titanic//////
+
+
+use("sample_mflix")
+db.movies.aggregate([
+{$match:{
+    title: "Titanic"
+}},
+
+    {
+        $group: {
+            _id:"",
+            "premios":{$sum:"$awards.wins"}
+        }
+    }, {
+        $project:{"Total de vitorias": "$premios"}
+    }
+])
+
+/////////////////////////////////////////////////////////
+
+  use("sample_mflix")
+db.movies.aggregate([
+  {$match:{
+    title:"Titanic"
+  }},
+  {
+    $group:{
+      _id:"",
+      "premios":{$sum:"$awards.wins"}
+    }
+  },{
+    $project:{"Mostrar o total de vitorias do filme Titanic":"$premios"}
+  }
+  
+])
+
+
+
+///////////////////////OUTRO BANCO DE DADOS////////////////
+
+use("sample_analytics")
+db.accounts.find({
+    account_id:371138 
+}) //busca pelo id da conta
+
+//account_id:371138
+
+
+///Uniendo dos colletion en una, aqui agrega una colletion como transacoe e suma todas las transacciones de la account_id:371138
+
+use("sample_analytics")
+db.accounts.aggregate({
+    $match:
+    {
+        account_id:371138
+    } 
+}, 
+{
+    $lookup: 
+    { 
+        from: "transactions", 
+        localField: "account_id",
+        foreignField: "account_id",
+        as: "transacoes"
+    }
+}
+)
+
+
+
