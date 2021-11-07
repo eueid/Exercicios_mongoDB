@@ -109,54 +109,101 @@ db.groups.insertMany
             ]}
 ])
 
+//////////////////Não funciona///////////////////////////////
+//
+// use("dbfacebook")
+// db.friends.insertMany(
+//     [{
+//         {      
+//         cpf:"02103521101",
+//         friends:
+//             [
+//                {
+//                     {cpf:"00000000001",
+//                     name:"Darwin",
+//                     last_name:"Betancourt"}
+//                 },
+//                 {
+//                     { cpf:"02103542101",
+//                     name:"R2-D2",
+//                     last_name:"Arturito"}
+//                 },
+//                 {
+//                     cpf:"02103540001",
+//                     name:"Chewbacca",
+//                     last_name:"Peter"
+//                 }
+//             ]},
+//
+//         {  
+//         cpf:"00003540001",
+//         friends:
+//             [
+//                {
+//                    cpf:"32103521101",
+//                    name:"Obi-Wan",
+//                    last_name:"Kenobi"
+//                 },
+//                 {
+//                     { cpf:"02103540001",
+//                     name:"Chewbacca",
+//                     last_name:"Peter"}
+//                 },
+//                 {
+//                      cpf:"10000300002",
+//                     ame:"Darth",
+//                     last_name:"Vader"
+//                 }
+//             ]}           
+//     }])
+//
+/////////////////////////////////////////////////////////////
 
 use("dbfacebook")
-db.friends.insertMany(
-    [{
-        {      
-        cpf:"02103521101",
-        friends:
-            [
-               {
-                    {cpf:"00000000001"},
-                    {name:"Darwin"},
-                    {last_name:"Betancourt"}
-                },
-                {
-                    { cpf:"02103542101"},
-                    {name:"R2-D2"},
-                    {last_name:"Arturito"}
-                },
-                {
-                    { cpf:"02103540001"},
-                    {name:"Chewbacca"},
-                    {last_name:"Peter"}
-                }
-            ]},
-
-        {  
-        cpf:"00003540001",
-        friends:
-            [
-               {
-                   { cpf:"32103521101"},
-                   {name:"Obi-Wan"},
-                   {last_name:"Kenobi"}
-                },
-                {
-                    { cpf:"02103540001"},
-                    {name:"Chewbacca"},
-                    {last_name:"Peter"}
-                },
-                {
-                    { cpf:"10000300002"},
-                    {name:"Darth"},
-                    {last_name:"Vader"}
-                }
-            ]}           
-    }])
-
-
+db.friends.insertOne({
+    "cpf":"02103521101",friends:
+        [{"cpf": "00000000001",
+        "name" : "Darwin",
+        "last_name" :"Betancourt"},
+        {"cpf": "02103542101",
+        "name" : "R2-D2",
+        "last_name" :"Arturito"},
+        {"cpf": "02103540001",
+        "name" : "Chewbacca",
+        "last_name" :"Peter"} ]})
 
 use("dbfacebook")
-db.friends.insert({"cpf":02103521101,friends:[{"cpf": 00000000001,"name" : "Darwin","last_name" :"Betancourt"},{"cpf": 02103542101,"name" : "R2-D2","last_name" :"Arturito"},{"cpf": 02103540001,"name" : "Chewbacca","last_name" :"Peter"}]})
+db.friends.insertOne({
+    "cpf":"00003540001",friends:
+        [{"cpf": "32103521101",
+        "name" : "Obi-Wan",
+        "last_name" :"Kenobi"},
+        {"cpf": "02103540001",
+        "name" : "Chewbacca",
+        "last_name" :"Peter"},
+        {"cpf": "10000300002",
+        "name" : "Darth",
+        "last_name" :"Vader"} ]})
+
+
+
+
+//Inserir Post
+use("dbfacebook")
+db.posts.insertOne
+            ({
+                "tipo": "foto", 
+                "url": "img1.jpg", 
+                "titulo":"Episode VI – Return of the Jedi", 
+                "comentarios":
+                    [
+                        {"comentario":"filme muito interessante", 
+                        "cpf":"10000300002"},
+                        {"comentario":"Lawrence Kasdan and George Lucas são os melhores escritores",
+                        "cpf":"02103540001"},
+                        {"comentario":"Legal!",
+                        "cpf":"02103540001" }
+                    ], 
+                        "cpf":"00000000001", 
+                        "data_criacao": new Date()
+            })

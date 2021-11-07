@@ -15,13 +15,13 @@ db.user.insert({name: "Ada Lovelace", age: 205})
 
 show dbs
 
-use Biblioteca //cria bd temos que inserir alguma informação para terminar de criar
+use Biblioteca 
 
 db
 
-db.createCollection('Livros') //Criando uma nova collection na bd Biblioteca
+db.createCollection('Livros')
 
-show collections //mostra as coleçõe do nossa bd
+show collections 
 
 db.Livros.insertOne({ nome: "DUNA", autor: "FRANK HEBERT", genero: "FICÇÃO", Ano_de_Publicacao: "1965", ISBN: "978-85-7657-101-8"})
 
