@@ -90,7 +90,7 @@ db.Filmes.find({
             $or: [{ ano: { $gte: "1997", $lte: "2004" } }],
         }
     ]
-}).sort({ ano: 1 })
+}).sort({ ano: 1 }) // Não há a necessidade de usar $or aqui
 
 // 3 - Busque filmes de 2001 ou que comecem com a letra D.
 
@@ -134,7 +134,7 @@ db.Filmes.aggregate([
     }, {
         $project:{"Total de vitorias":("$premios")}
     }
-]);
+]); // Resposta do exercicio errado
 use("dbFilmes")
 db.Filmes.find( { ano: { $not: { $gte: "2001", $lte: "2005" } } } )
 
@@ -142,7 +142,7 @@ db.Filmes.find( { ano: { $not: { $gte: "2001", $lte: "2005" } } } )
 //7 - Conte quantos filmes foram lançados em 2001.
 
 use("dbFilmes")
-db.Filmes.find({ano: {$in:["2001"]}}).count()
+db.Filmes.find({ano: {$in:["2001"]}}).count() // Geralmente usa-se o in pra comparar dois valores. Mas deu certo aqui
 
 
 //8 - Selecione apenas o elenco numa distinct.
@@ -164,7 +164,7 @@ db.Filmes.find(
 use("dbFilmes")
 db.Filmes.find(
 {ano: {$eq: "2001" }},
-{nome: 1,diretor: 1,_id:0}
+{nome: 1,diretor: 1,_id:0} 
 ).sort({nome:-1,diretor:-1 }).limit(3)
 
 
